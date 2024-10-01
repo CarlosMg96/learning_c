@@ -1,7 +1,5 @@
 # learning_c
-<<<<<<< HEAD
 Aprendiendo sobre flutter mobile
-=======
 
 A new Flutter project.
 
