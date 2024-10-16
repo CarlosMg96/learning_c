@@ -9,29 +9,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index; // Actualiza el índice seleccionado
-    });
-
-    switch (index) {
-      case 0:
-        Navigator.pushReplacementNamed(context, '/'); // Asumiendo que esta es la ruta de Home
-        break;
-      case 1:
-        Navigator.pushReplacementNamed(context, '/top');
-        break;
-      case 2:
-        Navigator.pushReplacementNamed(context, '/reservaciones');
-        break;
-      case 3:
-        Navigator.pushReplacementNamed(context, '/profile');
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,31 +33,6 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.purple,
         foregroundColor: Colors.white,
         child: const Icon(Icons.add),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Top',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'Reservaciones',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex, // Índice seleccionado
-        onTap: _onItemTapped, // Maneja el tap
-        backgroundColor: Colors.blue,
-        selectedItemColor: Colors.purple,
-        unselectedItemColor: Colors.grey,
       ),
     );
   }

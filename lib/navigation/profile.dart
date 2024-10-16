@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Asegúrate de tener esta importación
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -9,10 +10,50 @@ class Profile extends StatelessWidget {
       appBar: AppBar(
         title: Text('Perfil'),
       ),
-      body: const Center(
-        child: Text(
-          'Perfil',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            const Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.brown,
+                  radius: 32,
+                  child: Text('AH'),
+                ),
+                SizedBox(width: 8),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '20203tn133@utez.edu.mx',
+                      style: TextStyle(
+                        fontSize: 16, // Tamaño de texto más grande
+                        fontWeight: FontWeight.bold, // Negrita
+                      ),
+                    ),
+                    Text(
+                      'Carlos Manuel González Rodríguez',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold, // Negrita
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const Spacer(),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                },
+                child: const Text('Cerrar sesión'),
+              ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
