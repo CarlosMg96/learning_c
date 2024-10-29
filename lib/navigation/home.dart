@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_c/widgets/home/list_restaurant_data.dart';
 import 'package:learning_c/modules/home/entities/restaurant.dart';
+import 'package:learning_c/widgets/home/restaurant_details.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -69,7 +70,19 @@ class _HomeState extends State<Home> {
         padding: const EdgeInsets.all(8),
         itemCount: restaurants.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListRestaurantData(restaurant: restaurants[index]);
+          return ListRestaurantData(
+            restaurant: restaurants[index],
+            onTap: () {
+              // Aquí puedes navegar a otra pantalla y pasar los datos del restaurante
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      RestaurantDetailScreen(restaurant: restaurants[index]),
+                ),
+              );
+            },
+          );
         },
       ),
     );
