@@ -1,38 +1,76 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:learning_c/widgets/content_column.dart';
+import 'package:learning_c/widgets/home/list_restaurant_data.dart';
+import 'package:learning_c/modules/home/entities/restaurant.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  _HomeState createState() => _HomeState();
+  State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  List<Restaurant> restaurants = [];
+  final db = FirebaseFirestore.instance;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // Escucha la colección de Firestore y llena la lista de restaurantes
+    db.collection("restaurants").snapshots().listen((event) {
+      List<Restaurant> newRestaurants = [];
+
+      for (var doc in event.docs) {
+        final restaurant = Restaurant(
+          doc.data()['name'] ?? 'Unknown',
+          doc.data()['description'] ?? 'No description',
+          List<String>.from(doc.data()['image'] ?? []),
+          (doc.data()['raiting'] ?? 0).toDouble(),
+          (doc.data()['count'] is String
+                  ? int.tryParse(doc.data()['count'])
+                  : doc.data()['count']) ??
+              0,
+        );
+        newRestaurants.add(restaurant);
+      }
+
+      if (mounted) {
+        setState(() {
+          // Actualiza la lista `restaurants` solo una vez fuera del loop
+          restaurants = newRestaurants;
+          isLoading = false;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: SingleChildScrollView( // Añadido para permitir desplazamiento
-          child: Row(
-            children: [
-              Expanded(child: ContentColumn(title: 'Primer Columna', description: 'Primer párrafo')),
-              SizedBox(width: 16), // Espacio entre columnas
-              Expanded(child: ContentColumn(title: 'Segunda Columna', description: 'Segundo párrafo')),
-              SizedBox(width: 16), // Espacio entre columnas
-              Expanded(child: ContentColumn(title: 'Tercer Columna', description: 'Tercer párrafo')),
-            ],
-          ),
-        ),
+      appBar: AppBar(
+        title: const Text("Inicio"),
+        backgroundColor: Colors.green,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/top');
+        onPressed: () => {
+          Navigator.pushNamed(context, '/top'),
         },
-        backgroundColor: Colors.purple,
-        foregroundColor: Colors.white,
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.chevron_right),
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(8),
+        itemCount: restaurants.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListRestaurantData(restaurant: restaurants[index]);
+        },
       ),
     );
   }

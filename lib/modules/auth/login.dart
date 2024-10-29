@@ -55,10 +55,11 @@ class _LoginState extends State<Login> {
                     onPressed: () async {
                       try {
                         final credential = await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
+                            .signInWithEmailAndPassword(
                           email: _email.text,
                           password: _password.text,
                         );
+                        Navigator.pushNamed(context, '/menu');
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'weak-password') {
                           print('The password provided is too weak.');
