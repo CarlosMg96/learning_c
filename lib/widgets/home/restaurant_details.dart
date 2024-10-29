@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:learning_c/modules/home/entities/restaurant.dart';
 
 class RestaurantDetailScreen extends StatelessWidget {
@@ -18,9 +19,44 @@ class RestaurantDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(restaurant.image.isNotEmpty
-                ? restaurant.image[0]
-                : 'https://via.placeholder.com/150x150.png'), // Imagen del restaurante
+            // Implementación del carrusel
+            CarouselSlider(
+              options: CarouselOptions(
+                height: 200, // Altura del carrusel
+                autoPlay: true, // Reproducción automática
+              ),
+              items: restaurant.image.isNotEmpty
+                  ? restaurant.image.map((imageUrl) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.network(
+                                imageUrl,
+                                fit: BoxFit.cover,
+                                width: MediaQuery.of(context).size.width,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }).toList()
+                  : [
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Image.network(
+                            'https://via.placeholder.com/150x150.png',
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width,
+                          ),
+                        ),
+                      ),
+                    ],
+            ),
             const SizedBox(height: 16),
             Text(
               restaurant.description,

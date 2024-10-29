@@ -39,7 +39,6 @@ class _HomeState extends State<Home> {
 
       if (mounted) {
         setState(() {
-          // Actualiza la lista `restaurants` solo una vez fuera del loop
           restaurants = newRestaurants;
           isLoading = false;
         });
