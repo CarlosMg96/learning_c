@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:learning_c/modules/home/entities/restaurant.dart';
 
 class RestaurantDetailScreen extends StatelessWidget {
@@ -67,6 +68,25 @@ class RestaurantDetailScreen extends StatelessWidget {
                 style: const TextStyle(fontSize: 16)),
             Text('Count: ${restaurant.count}',
                 style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 16),
+            Container(
+              height: 250,
+              child: GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(restaurant.location.latitude,
+                      restaurant.location.longitude),
+                  zoom: 15, // Zoom inicial
+                ),
+                markers: {
+                  Marker(
+                    markerId: MarkerId('restaurant_location'),
+                    position: LatLng(restaurant.location.latitude,
+                        restaurant.location.longitude),
+                    infoWindow: InfoWindow(title: restaurant.name),
+                  ),
+                },
+              ),
+            ),
           ],
         ),
       ),

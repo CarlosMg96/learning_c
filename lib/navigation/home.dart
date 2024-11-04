@@ -33,6 +33,7 @@ class _HomeState extends State<Home> {
                   ? int.tryParse(doc.data()['count'])
                   : doc.data()['count']) ??
               0,
+          doc.data()['location'] ?? GeoPoint(0, 0),
         );
         newRestaurants.add(restaurant);
       }
