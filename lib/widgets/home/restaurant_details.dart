@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:learning_c/modules/home/entities/restaurant.dart';
+import 'package:flutter_rating/flutter_rating.dart';
 
 class RestaurantDetailScreen extends StatelessWidget {
   final Restaurant restaurant;
@@ -20,7 +21,6 @@ class RestaurantDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Implementación del carrusel
             CarouselSlider(
               options: CarouselOptions(
                 height: 200, // Altura del carrusel
@@ -64,10 +64,15 @@ class RestaurantDetailScreen extends StatelessWidget {
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
-            Text('Rating: ${restaurant.raiting}',
-                style: const TextStyle(fontSize: 16)),
-            Text('Count: ${restaurant.count}',
-                style: const TextStyle(fontSize: 16)),
+            StarRating(
+              size: 16.0,
+              rating: restaurant.count > 0
+                  ? restaurant.raiting / restaurant.count
+                  : 0,
+              color: Colors.orange,
+              borderColor: Colors.grey,
+              starCount: 5,
+            ),
             const SizedBox(height: 16),
             Container(
               height: 250,
