@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learning_c/modules/home/entities/restaurant.dart';
-import 'package:flutter_rating/flutter_rating.dart'; // Import para StarRating
+import 'package:flutter_rating/flutter_rating.dart'; 
 
 class ListRestaurantData extends StatelessWidget {
   const ListRestaurantData({
